@@ -13,6 +13,8 @@ const RendimentoSchema = new mongoose.Schema({
             message: props => `${props.value} não é uma data válida!`
         }
     },
+    descricao: {type: String, required: false},
+    categoria: {type: String, required: false},
     mes: { type: String, required: true },
     tipo: { type: String, enum: ['Entrada', 'Saida'], required: true }
 });

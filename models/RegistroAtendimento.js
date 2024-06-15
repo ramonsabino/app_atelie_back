@@ -4,7 +4,17 @@ const { isValid, parseISO } = require('date-fns');
 const RegistroAtendimentoSchema = new mongoose.Schema({
     nomeCliente: { type: String, required: true },
     procedimento: { type: String, required: true },
-    dataHora: {
+    dataHoraAgendada: {
+        type: Date,
+        required: true,
+        validate: {
+            validator: function(value) {
+                return isValid(new Date(value));
+            },
+            message: props => `${props.value} não é uma data válida!`
+        }
+    },
+    dataHoraRegistro: {
         type: Date,
         required: true,
         validate: {
@@ -16,13 +26,6 @@ const RegistroAtendimentoSchema = new mongoose.Schema({
     },
     formaPagamento: { type: String, required: true },
     pagamento: { type: Number, required: true }
-});
-
-RegistroAtendimentoSchema.pre('save', function(next) {
-    if (typeof this.dataHora === 'string') {
-        this.dataHora = parseISO(this.dataHora);
-    }
-    next();
 });
 
 module.exports = mongoose.model('RegistroAtendimento', RegistroAtendimentoSchema);
