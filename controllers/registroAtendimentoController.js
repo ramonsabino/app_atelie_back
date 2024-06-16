@@ -1,4 +1,5 @@
 const { parseISO, format, isValid } = require('date-fns');
+const { ptBR } = require('date-fns/locale');
 const RegistroAtendimento = require('../models/RegistroAtendimento');
 const Rendimento = require('../models/Rendimento');
 
@@ -31,7 +32,7 @@ const createAtendimento = async (req, res) => {
         const novoRendimento = new Rendimento({
             pagamento: req.body.pagamento,
             data: dataHoraRegistro,
-            mes: mes,
+            mes: mes.charAt(0).toUpperCase() + mes.slice(1), // Primeira letra em maiúsculo
             tipo: 'Entrada'
         });
         await novoRendimento.save();
